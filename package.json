@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/961771834/react-ssr-demo.git"
+    "url": "git+https://github.com/961771834/cherub-front"
   },
   "keywords": [
     "ssr",
@@ -19,9 +19,9 @@
   "author": "leon.zheng",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/961771834/react-ssr-demo/issues"
+    "url": "https://github.com/961771834/cherub-front/issues"
   },
-  "homepage": "https://github.com/961771834/react-ssr-demo#readme",
+  "homepage": "https://github.com/961771834/cherub-front#readme",
   "devDependencies": {
     "babel-loader": "^7.1.4",
     "babel-plugin-add-module-exports": "^0.2.1",
