@@ -2,8 +2,7 @@
 exports.__esModule = true;
 var path = require("path");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
-var webpack = require("webpack");
-var CleanWebpackPlugin = require("clean-webpack-plugin");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var APP = __dirname;
 var APP_CONTEXT = '/everest';
 var entry = {
@@ -11,7 +10,7 @@ var entry = {
     'admin': './client/admin/index.js'
 };
 var output = {
-    path: path.resolve(APP, '/dist'),
+    path: path.resolve(APP, '../dist'),
     filename: 'public/[name].js',
     publicPath: APP_CONTEXT
 };
@@ -32,38 +31,17 @@ var rules = [
     },
     {
         test: /\.css$/,
-        use: [
-            {
-                loader: "file-loader"
-            },
-            {
-                loader: "extract-loader"
-            },
-            {
-                loader: "css-loader"
-            },
-        ]
+        use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: 'css-loader'
+        })
     },
     {
         test: /\.scss$/,
-        // use: ExtractTextPlugin.extract({
-        //     fallback: 'style-loader',
-        //     use: ['css-loader', 'sass-loader']
-        // })
-        use: [
-            {
-                loader: "file-loader"
-            },
-            {
-                loader: "extract-loader"
-            },
-            {
-                loader: "css-loader"
-            },
-            {
-                loader: 'sass-loader'
-            }
-        ]
+        use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: ['css-loader', 'sass-loader']
+        })
     },
     {
         test: /\.jsx?$/,
@@ -88,15 +66,10 @@ var rules = [
     }
 ];
 var plugins = [
-    new CleanWebpackPlugin(['../resources/static']),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.ProvidePlugin({
-        'React': 'react'
-    }),
     new HtmlWebpackPlugin({
         filename: 'index.html',
         template: './client/template.html',
-        chunks: ['index']
+        chunks: ['cherub']
     }),
     new HtmlWebpackPlugin({
         filename: 'admin.html',
@@ -108,16 +81,21 @@ var port = '3001';
 exports["default"] = {
     entry: entry,
     output: output,
-    module: {},
+    module: {
+        rules: rules
+    },
+    plugins: plugins,
     // resolve,
     // resolveLoader,
     devServer: {
-        https: true,
+        contentBase: path.resolve(APP, '../dist'),
+        https: false,
         open: true,
         overlay: {
             warnings: true,
             errors: true
         },
-        port: port
+        port: port,
+        
     }
 };

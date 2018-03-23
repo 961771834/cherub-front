@@ -1,0 +1,8 @@
+{
+  "presets": ["stage-0","env","react"],
+  "plugins": [
+    "add-module-exports",
+    "transform-class-properties",
+    ["import", { "libraryName": "antd", "style": "css" }]
+  ]
+}

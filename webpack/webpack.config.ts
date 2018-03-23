@@ -2,6 +2,7 @@ import path =  require('path');
 import HtmlWebpackPlugin = require('html-webpack-plugin');
 import webpack = require('webpack');
 import CleanWebpackPlugin = require('clean-webpack-plugin');
+import ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 const APP = __dirname;
@@ -11,7 +12,7 @@ const entry = {
   'admin':'./client/admin/index.js'
 }
 const output = {
-  path: path.resolve(APP, '/dist'),
+  path: path.resolve(APP, '../dist'),
   filename: 'public/[name].js',
   publicPath: APP_CONTEXT
 }
@@ -29,47 +30,21 @@ const rules = [
                     return '/public/images/[name].[md5:hash:hex:7].[ext]';
                 }
             }
-
-
-
-
         }
     },
     {
         test: /\.css$/,
-        use: [
-            {
-                loader: "file-loader",
-            },
-            {
-                loader: "extract-loader",
-            },
-            {
-                loader: "css-loader"
-            },
-        ]
+        use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: 'css-loader',  
+        }),
     },
     {
         test: /\.scss$/,
-        // use: ExtractTextPlugin.extract({
-        //     fallback: 'style-loader',
-        //     use: ['css-loader', 'sass-loader']
-        // })
-
-        use: [
-            {
-                loader: "file-loader",
-            },
-            {
-                loader: "extract-loader",
-            },
-            {
-                loader: "css-loader"
-            },
-            {
-                loader:'sass-loader'
-            }
-        ]
+        use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: ['css-loader', 'sass-loader'],
+        }),
     },
     {
         test: /\.jsx?$/,
@@ -95,15 +70,10 @@ const rules = [
 ];
 
 const plugins =  [
-    new CleanWebpackPlugin(['../resources/static']),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.ProvidePlugin({
-        'React': 'react',
-    }),
     new HtmlWebpackPlugin({ 
         filename:'index.html',
         template:'./client/template.html',
-        chunks: ['index']
+        chunks: ['cherub']
     }),
     new HtmlWebpackPlugin({ 
         filename:'admin.html',
@@ -118,9 +88,9 @@ export default {
   output,
 
   module: {
-    // rules
+    rules
   },
-
+  plugins,
   // resolve,
 
   // resolveLoader,
