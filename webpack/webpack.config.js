@@ -1,6 +1,9 @@
 "use strict";
 exports.__esModule = true;
 var path = require("path");
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var webpack = require("webpack");
+var CleanWebpackPlugin = require("clean-webpack-plugin");
 var APP = __dirname;
 var APP_CONTEXT = '/everest';
 var entry = {
@@ -25,20 +28,16 @@ var rules = [
                     return '/public/images/[name].[md5:hash:hex:7].[ext]';
                 }
             }
-
-
-
-
         }
     },
     {
         test: /\.css$/,
         use: [
             {
-                loader: "file-loader",
+                loader: "file-loader"
             },
             {
-                loader: "extract-loader",
+                loader: "extract-loader"
             },
             {
                 loader: "css-loader"
@@ -51,19 +50,18 @@ var rules = [
         //     fallback: 'style-loader',
         //     use: ['css-loader', 'sass-loader']
         // })
-
         use: [
             {
-                loader: "file-loader",
+                loader: "file-loader"
             },
             {
-                loader: "extract-loader",
+                loader: "extract-loader"
             },
             {
                 loader: "css-loader"
             },
             {
-                loader:'sass-loader'
+                loader: 'sass-loader'
             }
         ]
     },
@@ -88,6 +86,23 @@ var rules = [
             }
         }
     }
+];
+var plugins = [
+    new CleanWebpackPlugin(['../resources/static']),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.ProvidePlugin({
+        'React': 'react'
+    }),
+    new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: './client/template.html',
+        chunks: ['index']
+    }),
+    new HtmlWebpackPlugin({
+        filename: 'admin.html',
+        template: './client/template.html',
+        chunks: ['admin']
+    })
 ];
 var port = '3001';
 exports["default"] = {
