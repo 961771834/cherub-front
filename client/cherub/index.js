@@ -1,36 +1,37 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import {observable, action} from 'mobx';
-import {observer} from 'mobx-react';
+import React from "react";
+import { render } from "react-dom";
+import DevTools from "mobx-react-devtools";
 
-var appState = observable({
-    timer: 0
-});
+import TodoList from "./component/TodoList";
+import TodoListModel from "./store/TodoListModel";
+import TodoModel from "./store/TodoModel";
 
+const store = new TodoListModel();
 
-appState.resetTimer = action(function reset() {
-    appState.timer = 0;
-});
+console.log(store);
+// store.addTodo("Get Coffee");
 
-setInterval(action(function tick() {
-    appState.timer += 1;
-}), 1000);
+// store.addTodo("Write simpler code");
 
+// store.todos[0].finished = true;
 
-@observer
-class TimerView extends React.Component {
-    render() {
-        return (<button onClick={this.onReset.bind(this)}>
-                Seconds passed: {this.props.appState.timer}
-            </button>);
-    }
+render(
+  <div>
+    <DevTools />
+    <TodoList store={store} />
+  </div>,
+  document.getElementById("app")
+);
 
-    onReset () {
-        this.props.appState.resetTimer();
-    }
-};
+store.addTodo("Get Coffee");
+store.addTodo("Write simpler code");
+store.todos[0].finished = true;
 
+setTimeout(() => {
+  store.addTodo("Get a cookie as well");
+}, 2000);
 
-const element =(<h1>Hello, cherub!</h1>);
-ReactDOM.render(<TimerView appState={appState} />,document.getElementById("app"))
+// pl   aying around in the console
+window.store = store;
+
 

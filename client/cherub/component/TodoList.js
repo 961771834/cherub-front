@@ -1,10 +1,50 @@
-import { observable, computed } from 'mobx';
+import React,{ Component } from 'react';
 
+import { observable, action } from 'mobx';
 
-export default class TodoList  {
-    @observable todos = [];
+import { observer } from 'mobx-react';
 
-    @computed get unfinishedTodoCount() {
-        return this.todos.filter(todo => !todo.finished).length;
+import Todo from './Todo';
+
+@observer
+class TodoList extends Component  {
+    @observable newTodoTitle = "";
+
+    render(){
+        console.log(this.props.store);
+        return(
+        <div>
+            <form onSubmit={this.handleFormSubmit}>
+            New Todo:
+            <input
+                type="text"
+                value={this.newTodoTitle}
+                onChange={this.handleInputChange}
+            />
+            <button type="submit">Add</button>
+            </form>
+            <hr />
+            <ul>
+            {this.props.store.todos.map(todo => (
+                <Todo todo={todo} key={todo.id} />
+            ))}
+            </ul>
+            Tasks left: {this.props.store.unfinishedTodoCount}
+        </div>
+        );
+    }
+
+    @action
+    handleInputChange = e => {
+        this.newTodoTitle = e.target.value;
+    }
+
+    @action
+    handleFormSubmit = e => { 
+        this.props.store.addTodo(this.newTodoTitle);
+        this.newTodoTitle = '';
+        e.preventDefault();
     }
 }
+
+export default TodoList;
