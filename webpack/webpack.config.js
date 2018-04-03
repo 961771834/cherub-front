@@ -47,7 +47,7 @@ var rules = [
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: [
-            { loader: 'babel-loader' },
+            { loader: 'babel-loader' }, 
         ]
     },
     {
@@ -95,7 +95,6 @@ exports["default"] = {
             warnings: true,
             errors: true
         },
-        port: port,
-        
+        port: port
     }
 };

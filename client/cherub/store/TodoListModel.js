@@ -6,7 +6,7 @@ export default class TodoListModel {
     @observable todos = [];
 
     constructor(){
-        console.log(this.todos)
+        console.log(this.todos);
     }
     @computed get unfinishedTodoCount(){
         console.log(this);
