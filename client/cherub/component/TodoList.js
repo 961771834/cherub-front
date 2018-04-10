@@ -11,9 +11,9 @@ class TodoList extends Component  {
     @observable newTodoTitle = "";
 
     render(){
-        console.log(this.props.store);
-        return(
-        <div>
+        console.log(this.props.store.todos)
+        console.log(this.props)
+        return(<div>
             <form onSubmit={this.handleFormSubmit}>
             New Todo:
             <input
@@ -25,13 +25,12 @@ class TodoList extends Component  {
             </form>
             <hr />
             <ul>
-            {this.props.store.todos.map(todo => (
-                <Todo todo={todo} key={todo.id} />
+            {this.props.store.todos.map((todo,index) => (
+                <Todo key={todo.id} todo={todo} />
             ))}
             </ul>
             Tasks left: {this.props.store.unfinishedTodoCount}
-        </div>
-        );
+        </div>);
     }
 
     @action

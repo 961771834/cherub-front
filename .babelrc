@@ -1,12 +1,12 @@
 {
   "presets": ["@babel/preset-env","@babel/preset-react"],
   "plugins": [
-    "add-module-exports",
-    // "transform-class-properties",
-    // "transform-decorators-legacy",
-    // "transform-decorators",
-    "@babel/plugin-proposal-class-properties",
+  //  记住@babel/plugin-proposal-decorators 插件要放在首位
     "@babel/plugin-proposal-decorators",
+    ["@babel/plugin-proposal-class-properties", {
+      "loose": true
+    }],
+    "add-module-exports",
     ["import", { "libraryName": "antd", "style": "css" }]
   ]
 }

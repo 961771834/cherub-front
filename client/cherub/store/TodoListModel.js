@@ -9,7 +9,6 @@ export default class TodoListModel {
         console.log(this.todos);
     }
     @computed get unfinishedTodoCount(){
-        console.log(this);
         return this.todos.filter(todo => !todo.finished).length
     }
 
